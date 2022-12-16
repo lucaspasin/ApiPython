@@ -5,8 +5,8 @@ import unittest
 
 class TestReceiver(unittest.TestCase):
 
-    def setUp(self):
-        self.app = myapp.test_client()
+    # def setUp(self):
+    #     self.app = myapp.test_client()
 
     # def test_post_ok_200(self):
 
