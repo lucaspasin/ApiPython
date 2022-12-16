@@ -14,9 +14,13 @@ class ReceivedValidator:
         if( status ==  "" ):
             result['status'] = "status not sent"
 
-        status = request_data.get('registration', "") 
-        if( status ==  "" ):
+        registration = request_data.get('registration', "") 
+        if( registration ==  "" ):
             result['registration'] = "registration not sent"
+
+        if(registration !=  ""):
+            if(UtilValidator.validate_cpf_regex(registration) == None and UtilValidator.validate_cnpj_regex(registration) == None):
+                result['registration'] = "registration is invalid"
 
         email = request_data.get('email', "") 
         if( email ==  "" ):
@@ -51,7 +55,7 @@ class ReceivedValidator:
                     match = UtilValidator.validate_phone_regex(pix_key)
                 case 'CHAVE_ALEATORIA':
                     match = UtilValidator.validate_random_key_regex(pix_key)
-            if(match == ''):
+            if(match == None):
                 result['pix_key'] = "pix_key is invalid"
-                
+
         return result

@@ -9,6 +9,10 @@ class ReceiversRepository:
     def get_all_receivers():
         response = requests.get(f'{linkReceiver}/.json')
         return json.loads(response.text)
+
+    def get_receivers_by_value(value):
+        response = requests.get(f'{linkReceiver}/.json?orderBy="$value"&equalTo="{value}"')
+        return json.loads(response.text)
     
     def insert_receiver(receiver):
         response = requests.post(f'{linkReceiver}/.json', data=json.dumps(receiver))
