@@ -6,12 +6,29 @@ linkReceiver = ConstantManager.URL_FIREBASE + 'receivers'
 
 class ReceiversRepository:
 
-    def get_all_receivers():
-        response = requests.get(f'{linkReceiver}/.json')
-        return json.loads(response.text)
+    def get_all_receivers(next_index, limit):
+
+        if(limit == None):
+            limit = 10
+
+        query = f'{linkReceiver}/.json?orderBy="$key"'
+
+        if(next_index != None):
+            query = f'{query}&startAt="{next_index}"&limitToFirst={limit+1}'
+
+        response = requests.get(query)
+
+        dict = json.loads(response.text)
+        last_item = dict.popitem()
+        dict['next_index'] = last_item[0]
+
+        return dict
 
     def get_receivers_by_value(value):
-        response = requests.get(f'{linkReceiver}/.json?orderBy="$value"&equalTo="{value}"')
+
+        query = f'{linkReceiver}/.json?orderBy="$value"&equalTo="{value}"'
+        response = requests.get(query)
+
         return json.loads(response.text)
     
     def insert_receiver(receiver):

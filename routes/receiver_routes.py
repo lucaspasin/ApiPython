@@ -7,12 +7,14 @@ from validators.receiver_validator import ReceivedValidator
 @myapp.get('/receiver')
 def get_all_receivers():
 
+    next_index = request.args.get('next_index')
+    limit = request.args.get('limit')
     value = request.args.get('search_value')
 
     if(value != None):
         return ReceiversRepository.get_receivers_by_value(value)
 
-    return ReceiversRepository.get_all_receivers()
+    return ReceiversRepository.get_all_receivers(next_index, limit)
 
 @myapp.post('/receiver')
 def insert_new_receiver():
