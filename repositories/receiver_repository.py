@@ -14,7 +14,9 @@ class ReceiversRepository:
         query = f'{linkReceiver}/.json?orderBy="$key"'
 
         if(next_index != None):
-            query = f'{query}&startAt="{next_index}"&limitToFirst={limit+1}'
+            query = f'{query}&startAt="{next_index}"'
+
+        query = f'{query}&limitToFirst={limit+1}'
 
         response = requests.get(query)
 
